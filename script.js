@@ -1,12 +1,14 @@
 const heartElement = document.getElementById('heart-text');
 const footerElement = document.getElementById('footer-text');
+const startHint = document.getElementById('start-hint'); // Bisa dihapus dari HTML jika mau
+const audio = document.getElementById('myAudio');
 
 const textPattern = "I LOVE YOU ";
-const footerString = "by: Prisca";
+const footerString = "by: Prisca To: we dont know";
 
 const totalHeartChars = 2800; 
-const typingSpeedHeart = 1;  
-const typingSpeedFooter = 100; 
+const typingSpeedHeart = 1;   
+const typingSpeedFooter = 100;
 
 let heartIndex = 0;
 let footerIndex = 0;
@@ -17,7 +19,6 @@ function typeHeart() {
         heartIndex++;
         setTimeout(typeHeart, typingSpeedHeart);
     } else {
-        
         typeFooter();
     }
 }
@@ -29,18 +30,25 @@ function typeFooter() {
         setTimeout(typeFooter, typingSpeedFooter);
     }
 }
-function startExperience() {
-    if (!hasStarted) {
-        hasStarted = true;
-        startHint.style.display = "none"; // Sembunyikan instruksi klik
-        
-        audio.play().catch(error => {
-            console.log("Autoplay dicegah oleh browser, perlu interaksi klik.");
+
+// Fungsi utama untuk menjalankan semuanya
+window.onload = () => {
+    // 1. Mulai animasi teks langsung
+    typeHeart();
+
+    // 2. Coba putar audio secara otomatis
+    audio.volume = 0.5; // Set volume ke 50% agar tidak terlalu mengejutkan
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            // Jika browser memblokir, musik akan terhenti sampai user berinteraksi
+            console.log("Autoplay diblokir oleh browser. Musik akan berputar saat user menyentuh layar.");
+            
+            // Sebagai cadangan, tetap putar musik saat klik pertama kali
+            document.body.addEventListener('click', () => {
+                audio.play();
+            }, { once: true });
         });
-
-        typeHeart();
     }
-}
-
-document.body.addEventListener('click', startExperience);
-
+};
