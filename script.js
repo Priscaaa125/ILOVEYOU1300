@@ -29,6 +29,18 @@ function typeFooter() {
         setTimeout(typeFooter, typingSpeedFooter);
     }
 }
+function startExperience() {
+    if (!hasStarted) {
+        hasStarted = true;
+        startHint.style.display = "none"; // Sembunyikan instruksi klik
+        
+        audio.play().catch(error => {
+            console.log("Autoplay dicegah oleh browser, perlu interaksi klik.");
+        });
 
+        typeHeart();
+    }
+}
 
-typeHeart();
+document.body.addEventListener('click', startExperience);
+
