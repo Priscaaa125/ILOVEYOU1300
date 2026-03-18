@@ -4,7 +4,7 @@ const startHint = document.getElementById('start-hint'); // Bisa dihapus dari HT
 const audio = document.getElementById('myAudio');
 
 const textPattern = "I LOVE YOU ";
-const footerString = "by: Prisca To: we dont know";
+const footerString = "from: SOMEONE";
 
 const totalHeartChars = 2800; 
 const typingSpeedHeart = 1;   
